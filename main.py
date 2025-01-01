@@ -17,7 +17,7 @@ from data_layer.orm_classes import *
 from flask import request, Response, send_file
 
 app = config.app
-external_url = expose_port_ngrok(config.SERVER_PORT)
+external_url = "http://3.126.63.200:5000"  # expose_port_ngrok(config.SERVER_PORT)
 telegram_webhook_base = f'{external_url}/telegram'
 whatsapp_webhook_base = f'{external_url}/whatsapp'
 manager = StaticTelegramBotManager()
