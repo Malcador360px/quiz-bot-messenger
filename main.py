@@ -17,7 +17,7 @@ from data_layer.orm_classes import *
 from flask import request, Response, send_file
 
 app = config.app
-external_url = "https://3.126.63.200:5000"  # expose_port_ngrok(config.SERVER_PORT)
+external_url = f"https://3.126.63.200:{config.SERVER_PORT}"  # expose_port_ngrok(config.SERVER_PORT)
 telegram_webhook_base = f'{external_url}/telegram'
 whatsapp_webhook_base = f'{external_url}/whatsapp'
 manager = StaticTelegramBotManager()
@@ -27,7 +27,7 @@ active_quiz_bots = dict()
 def init():
     data = {JSONKeys.server_id.value: config.THIS_SERVER_ID,
             JSONKeys.auth_key.value: config.THIS_SERVER_AUTH_KEY,
-            JSONKeys.server_url.value: "http://3.126.63.200:5000/"}
+            JSONKeys.server_url.value: f"http://3.126.63.200:{config.SERVER_PORT}/"}
     headers = {JSONKeys.client_data.value: "false", JSONKeys.shutdown.value: "false"}
     requests.post(config.WEB_INTERFACE, data=json.dumps(data), headers=headers)
     for mapping in BotQuizMapping.get_all_mappings(db.session):
@@ -121,6 +121,7 @@ def fetch_csv(table_name, user_id):
 
 def create(request_body, user_id):
     table_dict = request_body.get(JSONKeys.table_json.value)
+    table_name = None
     try:
         if table_dict:
             quiz_dict = request_body[JSONKeys.quiz_json.value]
@@ -142,8 +143,14 @@ def create(request_body, user_id):
         else:
             return Response("No table json found", status=400)
     except RuntimeError:
+        if table_name is not None:
+            with db.get_engine().connect() as con:
+                drop_table(con, table_name, schema_name)
         return Response("Not enough bots", status=412)
     except KeyError:
+        if table_name is not None:
+            with db.get_engine().connect() as con:
+                drop_table(con, table_name, schema_name)
         return Response("No quiz json found", status=400)
 
 

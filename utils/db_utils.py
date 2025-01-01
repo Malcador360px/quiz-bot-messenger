@@ -98,3 +98,7 @@ def get_objects_til_update_date(connection, table_name, schema_name, date):
 
 def drop_table(connection, table_name, schema_name):
     return connection.execute(f'DROP TABLE "{schema_name}"."{table_name}"')
+
+
+def drop_schema(connection, schema_name):
+    return connection.execute(f'DROP SCHEMA "{schema_name}" CASCADE')
