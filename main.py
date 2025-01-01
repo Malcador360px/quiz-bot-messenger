@@ -1,7 +1,6 @@
 import datetime
 import os
 import sys
-
 import config
 import json
 import requests
@@ -269,7 +268,6 @@ def shutdown():
 
 
 if __name__ == '__main__':
-    sys.path.append(f"{config.THIS_FOLDER}/venv/Lib/site-packages")
     connect = False
     db.create_all()
     db.session.commit()
