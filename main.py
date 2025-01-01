@@ -27,7 +27,7 @@ active_quiz_bots = dict()
 def init():
     data = {JSONKeys.server_id.value: config.THIS_SERVER_ID,
             JSONKeys.auth_key.value: config.THIS_SERVER_AUTH_KEY,
-            JSONKeys.server_url.value: "http://localhost:5000/"}
+            JSONKeys.server_url.value: "http://3.126.63.200:5000/"}
     headers = {JSONKeys.client_data.value: "false", JSONKeys.shutdown.value: "false"}
     requests.post(config.WEB_INTERFACE, data=json.dumps(data), headers=headers)
     for mapping in BotQuizMapping.get_all_mappings(db.session):
