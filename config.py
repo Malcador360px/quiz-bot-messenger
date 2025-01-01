@@ -18,7 +18,7 @@ app = Flask(__name__)
 SERVER_PORT = 5000
 
 # Database url
-DATABASE = "postgresql://quiz_marketing_bot:quiz_marketing_bot@localhost:5432/quiz_marketing_bot_db"
+DATABASE = "postgresql://quiz_bot_messenger:1@localhost:5432/quiz_bot_messenger"
 
 # Web interface url
-WEB_INTERFACE = "http://localhost:8085"
+WEB_INTERFACE = "http://www.quiz-bot.net:8085"
