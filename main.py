@@ -39,7 +39,7 @@ def init():
 
 
 def start_server():
-    app.run(port=config.SERVER_PORT, threaded=True)
+    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True)
 
 
 def stop_server():
