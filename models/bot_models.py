@@ -91,7 +91,7 @@ class TelegramBot:
     def get_telegram_username(self):
         return self.telegram_bot.username
 
-    def start_webhook(self, base_url: str, drop_pending_updates=False, port=0, listen="127.0.0.1"):
+    def start_webhook(self, base_url: str, drop_pending_updates=False, port=0, listen="0.0.0.0"):
         self.updater.start_webhook(webhook_url=f'{base_url}/{self.bot.id}', drop_pending_updates=drop_pending_updates,
                                    listen=listen, port=port)
 
