@@ -17,7 +17,7 @@ from data_layer.orm_classes import *
 from flask import request, Response, send_file
 
 app = config.app
-external_url = expose_port_ngrok(config.SERVER_PORT)  # expose_port_ngrok(config.SERVER_PORT)
+external_url = f"https://3.126.63.200:{config.SERVER_PORT}"  # expose_port_ngrok(config.SERVER_PORT)
 telegram_webhook_base = f'{external_url}/telegram'
 whatsapp_webhook_base = f'{external_url}/whatsapp'
 manager = StaticTelegramBotManager()
@@ -27,7 +27,7 @@ active_quiz_bots = dict()
 def init():
     data = {JSONKeys.server_id.value: config.THIS_SERVER_ID,
             JSONKeys.auth_key.value: config.THIS_SERVER_AUTH_KEY,
-            JSONKeys.server_url.value: expose_port_ngrok(config.SERVER_PORT)}
+            JSONKeys.server_url.value: f"https://3.126.63.200:{config.SERVER_PORT}"}
     headers = {JSONKeys.client_data.value: "false", JSONKeys.shutdown.value: "false"}
     requests.post(config.WEB_INTERFACE, data=json.dumps(data), headers=headers)
     for mapping in BotQuizMapping.get_all_mappings(db.session):
