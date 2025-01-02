@@ -17,7 +17,7 @@ from data_layer.orm_classes import *
 from flask import request, Response, send_file
 
 app = config.app
-external_url = f"https://3.126.63.200:{config.SERVER_PORT}"  # expose_port_ngrok(config.SERVER_PORT)
+external_url = expose_port_ngrok(config.SERVER_PORT)  # expose_port_ngrok(config.SERVER_PORT)
 telegram_webhook_base = f'{external_url}/telegram'
 whatsapp_webhook_base = f'{external_url}/whatsapp'
 manager = StaticTelegramBotManager()
@@ -27,7 +27,7 @@ active_quiz_bots = dict()
 def init():
     data = {JSONKeys.server_id.value: config.THIS_SERVER_ID,
             JSONKeys.auth_key.value: config.THIS_SERVER_AUTH_KEY,
-            JSONKeys.server_url.value: f"https://3.126.63.200:{config.SERVER_PORT}"}
+            JSONKeys.server_url.value: expose_port_ngrok(config.SERVER_PORT)}
     headers = {JSONKeys.client_data.value: "false", JSONKeys.shutdown.value: "false"}
     requests.post(config.WEB_INTERFACE, data=json.dumps(data), headers=headers)
     for mapping in BotQuizMapping.get_all_mappings(db.session):
@@ -227,9 +227,13 @@ def check(request_body, user_id):
         return Response("Table name parameter not found", status=400)
 
 
+@app.before_request
+def log():
+    print(request.base_url)
+
+
 @app.route('/', methods=['POST'])
 def web_interface_receive():
-    print(1)
     request_body = json.loads(request.get_data().decode('utf-8'))
     user_id = request_body.get(JSONKeys.user_identifier.value)
     keyword = request_body.get(JSONKeys.request_keyword.value)
@@ -251,7 +255,6 @@ def web_interface_receive():
 
 @app.route('/telegram/<bot_id>', methods=['POST'])
 def process_telegram(bot_id):
-    print(2)
     try:
         active_quiz_bots[uuid.UUID(bot_id)].process_request(request.get_data().decode('utf-8'))
     except KeyError:
