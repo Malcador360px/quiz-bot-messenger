@@ -39,8 +39,7 @@ def init():
 
 
 def start_server():
-    context = ("quiz-bot.messenger.crt", "quiz-bot.messenger.key")
-    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True, ssl_context=context)
+    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True, ssl_context='adhoc')
 
 
 def stop_server():

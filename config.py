@@ -16,7 +16,7 @@ cli.show_server_banner = lambda *x: None
 app = Flask(__name__)
 
 # Flask server port
-SERVER_PORT = 88
+SERVER_PORT = 443
 
 # Database url
 DATABASE = "postgresql://quiz_bot_messenger:1@localhost:5432/quiz_bot_messenger"
