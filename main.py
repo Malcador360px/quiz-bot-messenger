@@ -27,7 +27,7 @@ active_quiz_bots = dict()
 def init():
     data = {JSONKeys.server_id.value: config.THIS_SERVER_ID,
             JSONKeys.auth_key.value: config.THIS_SERVER_AUTH_KEY,
-            JSONKeys.server_url.value: f"http://3.126.63.200:{config.SERVER_PORT}"}
+            JSONKeys.server_url.value: f"https://3.126.63.200:{config.SERVER_PORT}"}
     headers = {JSONKeys.client_data.value: "false", JSONKeys.shutdown.value: "false"}
     requests.post(config.WEB_INTERFACE, data=json.dumps(data), headers=headers)
     for mapping in BotQuizMapping.get_all_mappings(db.session):
@@ -39,7 +39,8 @@ def init():
 
 
 def start_server():
-    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True)
+    context = ("quiz-bot.messenger.crt", "quiz-bot.messenger.key")
+    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True, ssl_context=context)
 
 
 def stop_server():
