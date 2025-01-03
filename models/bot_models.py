@@ -93,7 +93,7 @@ class TelegramBot:
 
     def start_webhook(self, base_url: str, drop_pending_updates=False, port=0, listen="0.0.0.0"):
         self.updater.start_webhook(webhook_url=f'{base_url}/{self.bot.id}', drop_pending_updates=drop_pending_updates,
-                                   listen=listen, port=port)
+                                   listen=listen, port=port, cert='quiz-bot.messenger.pem')
 
     def discharge_bot(self):
         self.stop_webhook()

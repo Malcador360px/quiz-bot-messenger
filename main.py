@@ -39,7 +39,8 @@ def init():
 
 
 def start_server():
-    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True, ssl_context='adhoc')
+    context = ("quiz-bot.messenger.crt", "quiz-bot.messenger.key")
+    app.run(host='0.0.0.0', port=config.SERVER_PORT, threaded=True, ssl_context=context)
 
 
 def stop_server():
@@ -225,11 +226,6 @@ def check(request_body, user_id):
             return Response("false", status=200)
     else:
         return Response("Table name parameter not found", status=400)
-
-
-@app.before_request
-def log():
-    print(request.base_url)
 
 
 @app.route('/', methods=['POST'])
